@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PakWheels Clone | Buy & Sell Cars in Pakistan</title>
+    <style>
+        /* --- Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f2f3f8;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Top Utility Bar --- */
+        .top-bar {
+            background-color: #002336;
+            color: #fff;
+            font-size: 0.8rem;
+            padding: 8px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-links a {
+            margin-left: 15px;
+            color: #b3c0c7;
+        }
+        .top-links a:hover { color: #fff; }
+
+        /* --- Main Navigation --- */
+        header {
+            background-color: #002f46;
+            color: #fff;
+            padding: 15px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+        .logo span { color: #b70000; } /* PakWheels signature red accent */
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        nav ul a:hover { color: #23393d; }
+
+        .btn-post-ad {
+            background-color: #b70000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .btn-post-ad:hover { background-color: #900000; }
+
+        /* --- Hero Search Section --- */
+        .hero {
+            background: linear-gradient(rgba(0, 31, 46, 0.85), rgba(0, 31, 46, 0.85)), 
+                        url('https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1920') no-repeat center center/cover;
+            padding: 80px 10%;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        /* Search Filter Widget */
+        .search-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 30px auto 0 auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-inputs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .search-inputs input, .search-inputs select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .btn-search {
+            grid-column: span 4;
+            background-color: #388e3c;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-search:hover { background-color: #2e7d32; }
+
+        /* --- Managed Services Section --- */
+        .services {
+            padding: 60px 10%;
+            background-color: white;
+            text-align: center;
+        }
+
+        .services h2 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .service-box {
+            border: 1px solid #e6e6e6;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .service-box h3 {
+            color: #004c6d;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .service-box p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        /* --- Featured Managed Cars Grid --- */
+        .featured {
+            padding: 60px 10%;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 { font-size: 1.6rem; }
+        .section-header a { color: #002f46; font-weight: bold; font-size: 0.9rem;}
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .car-card {
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .car-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            background-color: #ddd;
+        }
+
+        /* Card Image fallbacks using crisp car photography */
+        .img-civic { background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=500'); }
+        .img-yaris { background-image: url('https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=500'); }
+        .img-sportage { background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=500'); }
+        .img-alto { background-image: url('https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=500'); }
+
+        .car-details {
+            padding: 15px;
+        }
+
+        .car-title {
+            font-weight: bold;
+            color: #004c6d;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .car-price {
+            color: #b70000;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .car-location {
+            color: #888;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .car-meta {
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #232b35;
+            color: #b3c0c7;
+            padding: 40px 10% 20px 10%;
+            font-size: 0.85rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #38424d;
+            padding-bottom: 30px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-col ul li a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        /* --- Responsive Viewports --- */
+        @media (max-width: 900px) {
+            .search-inputs { grid-template-columns: repeat(2, 1fr); }
+            .btn-search { grid-column: span 2; }
+            .services-grid { grid-template-columns: 1fr; }
+            header nav { display: none; }
+        }
+
+        @media (max-width: 500px) {
+            .search-inputs { grid-template-columns: 1fr; }
+            .btn-search { grid-column: span 1; }
+            .top-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div>🚗 Clone Marketplace for Buying & Selling Wheels</div>
+        <div class="top-links">
+            <a href="#">Sign In</a>
+            <a href="#">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="logo">PAK<span style="color:#b70000">WHEELS</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">Used Cars</a></li>
+                <li><a href="#">New Cars</a></li>
+                <li><a href="#">Bikes</a></li>
+                <li><a href="#">Auto Parts</a></li>
+                <li><a href="#">Inspection</a></li>
+            </ul>
+        </nav>
+        <a href="#" class="btn-post-ad">Post an Ad</a>
+    </header>
+
+    <!-- Hero / Core Search Filter Section -->
+    <section class="hero">
+        <h1>Find Used Cars in Pakistan</h1>
+        <p>With thousands of cars, you will find the right vehicle here.</p>
+        
+        <div class="search-container">
+            <div class="search-inputs">
+                <input type="text" placeholder="Car Make or Model (e.g., Civic)">
+                <select>
+                    <option>All Cities</option>
+                    <option>Karachi</option>
+                    <option>Lahore</option>
+                    <option>Islamabad</option>
+                </select>
+                <select>
+                    <option>Price Range Min</option>
+                    <option>Rs. 10 Lakhs</option>
+                    <option>Rs. 20 Lakhs</option>
+                    <option>Rs. 30 Lakhs</option>
+                </select>
+                <select>
+                    <option>Price Range Max</option>
+                    <option>Rs. 30 Lakhs</option>
+                    <option>Rs. 50 Lakhs</option>
+                    <option>Rs. 1 Crore+</option>
+                </select>
+                <button class="btn-search">Search Cars</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Banner / Entry Points -->
+    <section class="services">
+        <h2>Sell Your Car Safely on PakWheels</h2>
+        <div class="services-grid">
+            <div class="service-box">
+                <h3>Post your Ad on PakWheels</h3>
+                <p>Sell it yourself safely. Post your ad for free and get connected directly with thousands of verified Pakistani buyers.</p>
+                <a href="#" class="btn-post-ad" style="background:#004c6d">Post Your Ad</a>
+            </div>
+            <div class="service-box">
+                <h3>PakWheels Sell It For Me</h3>
+                <p>Let our dedicated experts handle the calls, test drives, documentation, and bargaining securely from start to finish.</p>
+                <a href="#" class="btn-post-ad" style="background:#388e3c">Register Car</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Cars Showroom Section -->
+    <section class="featured">
+        <div class="section-header">
+            <h2>Featured Used Cars for Sale</h2>
+            <a href="#">View all featured cars</a>
+        </div>
+
+        <div class="car-grid">
+            <!-- Car 1 -->
+            <div class="car-card">
+                <div class="car-image img-civic"></div>
+                <div class="car-details">
+                    <div class="car-title">Honda Civic Oriel 1.8 i-VTEC</div>
+                    <div class="car-price">PKR 48.5 Lacs</div>
+                    <div class="car-location">Lahore</div>
+                    <div class="car-meta">
+                        <span>2021</span>
+                        <span>64,000 km</span>
+                        <span>Petrol</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car 2 -->
+            <div class="car-card">
+                <div class="car-image img-yaris"></div>
+                <div class="car-details">
+                    <div class="car-title">Toyota Yaris ATIV X CVT 1.5</div>
+                    <div class="car-price">PKR 41.0 Lacs</div>
+                    <div class="car-location">Karachi</div>
+                    <div class="car-meta">
+                        <span>2022</span>
+                        <span>28,000 km</span>
+                        <span>Petrol</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car 3 -->
+            <div class="car-card">
+                <div class="car-image img-sportage"></div>
+                <div class="car-details">
+                    <div class="car-title">Kia Sportage AWD</div>
+                    <div class="car-price">PKR 74.0 Lacs</div>
+                    <div class="car-location">Islamabad</div>
+                    <div class="car-meta">
+                        <span>2023</span>
+                        <span>19,500 km</span>
+                        <span>Petrol</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car 4 -->
+            <div class="car-card">
+                <div class="car-image img-alto"></div>
+                <div class="car-details">
+                    <div class="car-title">Suzuki Alto VXL</div>
+                    <div class="car-price">PKR 27.5 Lacs</div>
+                    <div class="car-location">Rawalpindi</div>
+                    <div class="car-meta">
+                        <span>2022</span>
+                        <span>42,000 km</span>
+                        <span>Petrol</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Area -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Cars by Make</h4>
+                <ul>
+                    <li><a href="#">Toyota Cars</a></li>
+                    <li><a href="#">Honda Cars</a></li>
+                    <li><a href="#">Suzuki Cars</a></li>
+                    <li><a href="#">Kia Cars</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Cars by City</h4>
+                <ul>
+                    <li><a href="#">Cars in Karachi</a></li>
+                    <li><a href="#">Cars in Lahore</a></li>
+                    <li><a href="#">Cars in Islamabad</a></li>
+                    <li><a href="#">Cars in Peshawar</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="#">Car Inspection</a></li>
+                    <li><a href="#">Auction Sheet Verification</a></li>
+                    <li><a href="#">Car Insurance</a></li>
+                    <li><a href="#">Car Finance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PakWheels UI Template Build. Built for design and framework deployment.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
